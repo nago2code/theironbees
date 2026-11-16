@@ -1,0 +1,126 @@
+#sticky-nav[hidden],
+#section-scroll[hidden] {
+  display: none;
+}
+
+#section-scroll[data-direction='up'] svg {
+  transform: rotate(180deg);
+}
+
+#sticky-nav:not([data-visible]) {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+#afisha,
+#platform,
+#contacts {
+  scroll-margin-top: 4rem;
+}
+
+.concert-finished {
+  display: grid;
+  min-height: 3rem;
+  place-items: center;
+  color: var(--color-foreground);
+  font-weight: 700;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  #sticky-nav {
+    transition:
+      opacity 300ms ease,
+      translate 300ms ease,
+      visibility 300ms;
+  }
+
+  #sticky-nav:not([data-visible]) {
+    opacity: 0;
+    translate: 0 -100%;
+  }
+
+  #section-scroll {
+    animation: pop-in 200ms ease-out;
+  }
+
+  #section-scroll svg {
+    transition: transform 200ms ease-out;
+  }
+
+  [data-hero-background] {
+    translate: 0 var(--hero-offset, 0%);
+  }
+
+  [data-hero-content]:not(:focus-within) {
+    opacity: var(--hero-opacity, 1);
+  }
+
+  [data-hero-intro],
+  [data-hero-nav] > div {
+    --entry-x: -20px;
+    animation: appear 800ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  }
+
+  [data-hero-nav] > div {
+    animation-duration: 500ms;
+    animation-delay: calc(200ms + var(--stagger, 0ms));
+  }
+
+  [data-hero-socials] > div {
+    animation: pop-in 400ms ease-out backwards;
+    animation-delay: calc(400ms + var(--stagger, 0ms));
+  }
+
+  [data-revealed]:is([data-reveal='fade'], [data-reveal='slide']),
+  [data-revealed][data-reveal='group'] > * {
+    animation: appear 600ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
+    animation-delay: var(--stagger, 0ms);
+  }
+
+  [data-reveal='slide'] {
+    --entry-y: 20px;
+  }
+
+  [data-reveal='group'] > * {
+    --entry-y: 30px;
+  }
+
+  :is([data-hero-nav], [data-hero-socials], [data-reveal='group']) > :nth-child(2) {
+    --stagger: 150ms;
+  }
+
+  :is([data-hero-nav], [data-hero-socials], [data-reveal='group']) > :nth-child(3) {
+    --stagger: 300ms;
+  }
+
+  [data-reveal='group'] > :nth-child(n + 4) {
+    --stagger: 450ms;
+  }
+
+  [data-hero-nav] > :focus-within,
+  [data-hero-socials] > :focus-within,
+  [data-revealed][data-reveal='slide']:focus-within,
+  [data-revealed][data-reveal='group'] > :focus-within {
+    animation: none;
+  }
+
+  @keyframes appear {
+    from {
+      opacity: 0;
+      translate: var(--entry-x, 0px) var(--entry-y, 0px);
+    }
+  }
+
+  @keyframes pop-in {
+    from {
+      opacity: 0;
+      scale: 0.8;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
